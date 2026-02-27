@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>📘 Dashboard</h1>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="#">Categories</a>
+        <a href="#">Wishlist</a>
+    </nav>
+    <div class="search">
+        <input class="search-input" placeholder="Search books...">
+    </div>
+    <div>
+        <span id="user"></span>
+        <button onclick="logout()">Logout</button>
+        <button onclick="openCart()">Cart (<span id="cartCount">0</span>)</button>
+    </div>
+</header>
+
+<main class="books" id="booksContainer">
+    <div class="book">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/51-uspgqWIL._SX331_BO1,204,203,200_.jpg" alt="Atomic Habits">
+        <h3>Atomic Habits</h3>
+        <p class="price">$10</p>
+        <p class="desc">Build better habits</p>
+        <button onclick="addToCart('Atomic Habits', 10)">Add to Cart</button>
+    </div>
+
+    <div class="book">
+        <img src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1602190253i/52578297.jpg" alt="The Midnight Library">
+        <h3>The Midnight Library</h3>
+        <p class="price">$14</p>
+        <p class="desc">Life-changing fiction</p>
+        <button onclick="addToCart('The Midnight Library', 14)">Add to Cart</button>
+    </div>
+
+    <div class="book">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/713jIoMO3UL.jpg" alt="Sapiens">
+        <h3>Sapiens</h3>
+        <p class="price">$18</p>
+        <p class="desc">History of humankind</p>
+        <button onclick="addToCart('Sapiens', 18)">Add to Cart</button>
+    </div>
+
+    <div class="book">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/81WojUxbbFL.jpg" alt="Educated">
+        <h3>Educated</h3>
+        <p class="price">$16</p>
+        <p class="desc">Inspiring memoir</p>
+        <button onclick="addToCart('Educated', 16)">Add to Cart</button>
+    </div>
+
+    <div class="book">
+        <img src="https://i0.wp.com/amberrfield.com/wp-content/uploads/2024/01/DeepWork.png?w=516&ssl=1" alt="Deep Work">
+        <h3>Deep Work</h3>
+        <p class="price">$12</p>
+        <p class="desc">Master concentration</p>
+        <button onclick="addToCart('Deep Work', 12)">Add to Cart</button>
+    </div>
+
+    <div class="book">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg" alt="Thinking Fast and Slow">
+        <h3>Thinking Fast</h3>
+        <p class="price">$15</p>
+        <p class="desc">Psychology insights</p>
+        <button onclick="addToCart('Thinking Fast', 15)">Add to Cart</button>
+    </div>
+
+    <div class="book">
+        <img src="https://m.media-amazon.com/images/I/71wm29Etl4L._SY522_.jpg" alt="The Power of Habit">
+        <h3>Power of Habit</h3>
+        <p class="price">$11</p>
+        <p class="desc">Understand habit loops</p>
+        <button onclick="addToCart('Power of Habit', 11)">Add to Cart</button>
+    </div>
+
+    <div class="book">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/81-QB7nDh4L.jpg" alt="The Subtle Art of Not Giving a F*ck">
+        <h3>Subtle Art</h3>
+        <p class="price">$13</p>
+        <p class="desc">Counterintuitive life advice</p>
+        <button onclick="addToCart('Subtle Art', 13)">Add to Cart</button>
+    </div>
+
+    <div class="book">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/71aFt4+OTOL.jpg" alt="The Alchemist">
+        <h3>The Alchemist</h3>
+        <p class="price">$9</p>
+        <p class="desc">A fable about following dreams</p>
+        <button onclick="addToCart('The Alchemist', 9)">Add to Cart</button>
+    </div>
+
+    <div class="book">
+        <img src="https://images-na.ssl-images-amazon.com/images/I/81eB+7+CkUL.jpg" alt="Where the Crawdads Sing">
+        <h3>Crawdads Sing</h3>
+        <p class="price">$14</p>
+        <p class="desc">Mystery and nature</p>
+        <button onclick="addToCart('Crawdads Sing', 14)">Add to Cart</button>
+    </div>
+
+    <div class="book">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFbu3BNpicaGhLBkaytMlkoPqCelwS_aPYEQ&s" alt="The Four Agreements">
+        <h3>Four Agreements</h3>
+        <p class="price">$10</p>
+        <p class="desc">Practical guide to personal freedom</p>
+        <button onclick="addToCart('Four Agreements', 10)">Add to Cart</button>
+    </div>
+
+    </main>
+
+<div class="cart" id="cartBox">
+    <div class="cart-header">
+        <h2>Your Cart</h2>
+        <button class="close-btn" onclick="closeCart()">✕</button>
+    </div>
+    <div id="cartContent">
+        <ul id="cartItems"></ul>
+        <p class="cart-total">Total: $<span id="total">0</span></p>
+        <button class="checkout-btn" onclick="checkout()">Checkout</button>
+        <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
+    </div>
+    <div id="emptyCart" style="display:none;text-align:center;padding:20px;">
+        <p>Your cart is empty</p>
+    </div>
+</div>
+
+<div id="notification" class="notification"></div>
+
+<script src="auth.js"></script>
+<script src="cart.js"></script>
+<script>
+let rawUser = localStorage.getItem("loggedUser");
+if(!rawUser){ window.location.href="login.html"; }
+let currentUser;
+try {
+    currentUser = JSON.parse(rawUser);
+} catch(e){
+    currentUser = { name: rawUser };
+}
+document.getElementById("user").innerText = "Welcome, " + (currentUser.name || currentUser);
+
+function logout(){
+    localStorage.removeItem("loggedUser");
+    window.location.href="home.html";
+}
+</script>
+</body>
+</html>

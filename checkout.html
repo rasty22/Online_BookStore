@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Checkout</h1>
+    <div>
+        <span id="user"></span>
+        <button onclick="logout()">Logout</button>
+        <button onclick="window.location.href='dashboard.html'">Back to Shop</button>
+    </div>
+</header>
+
+<main style="max-width:600px;margin:30px auto;padding:20px;background:white;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+    <h2>Your Order</h2>
+    <ul id="checkoutItems" style="list-style:none;padding:0;margin:20px 0;"></ul>
+    <p style="font-weight:bold;font-size:18px;text-align:right;">Total: $<span id="checkoutTotal">0</span></p>
+    <button id="confirmOrderBtn" style="width:100%;padding:12px;background:#28a745;color:white;border:none;border-radius:5px;font-weight:bold;cursor:pointer;">Confirm Order</button>
+</main>
+
+<div id="notification" class="notification"></div>
+
+<script>
+    const username = localStorage.getItem("loggedUser");
+    if (!username) { window.location.href = "login.html"; }
+    document.getElementById("user").innerText = "Welcome, " + username;
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const checkoutList = document.getElementById("checkoutItems");
+    const checkoutTotal = document.getElementById("checkoutTotal");
+
+    function displayCheckout() {
+        checkoutList.innerHTML = "";
+        let total = 0;
+        if (cart.length === 0) {
+            checkoutList.innerHTML = "<li>Your cart is empty.</li>";
+            checkoutTotal.innerText = "0";
+            return;
+        }
+        cart.forEach(item => {
+            const li = document.createElement("li");
+            const subtotal = item.p * item.qty;
+            total += subtotal;
+            li.style.padding = "10px 0";
+            li.style.borderBottom = "1px solid #ddd";
+            li.innerText = `${item.n} x ${item.qty} - $${subtotal.toFixed(2)}`;
+            checkoutList.appendChild(li);
+        });
+        checkoutTotal.innerText = total.toFixed(2);
+    }
+
+    displayCheckout();
+
+    document.getElementById("confirmOrderBtn").addEventListener("click", function() {
+        if (cart.length === 0) { alert("Your cart is empty!"); return; }
+        const total = cart.reduce((sum, i) => sum + i.p * i.qty, 0);
+        if (confirm(`Confirm your order? Total: $${total.toFixed(2)}`)) {
+            cart = [];
+            localStorage.setItem("cart", JSON.stringify(cart));
+            displayCheckout();
+            showNotification("Order placed successfully!");
+            setTimeout(() => { window.location.href = "dashboard.html"; }, 1500);
+        }
+    });
+
+    function logout() {
+        localStorage.removeItem("loggedUser");
+        window.location.href = "home.html";
+    }
+
+    function showNotification(msg) {
+        const notif = document.getElementById("notification");
+        notif.innerText = msg;
+        notif.style.display = "block";
+        setTimeout(() => { notif.style.display = "none"; }, 2000);
+    }
+</script>
+
+</body>
+</html>
